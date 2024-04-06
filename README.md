@@ -29,7 +29,62 @@ scenario explaining the decision of how you arrive at your final answer.
 
 ## Concepts to cover
 
+- Why learn relational databases?
 - Problem Decomposition
+  - What types of things do we need to track?
+  - How many of each of those types exist?
+  - What are their relationships to each other?
 - Entities / Tables
 - Attributes / Columns
-- Relationships
+- Relationships and cardinality
+- Changes over time
+
+## Why learn relational databases?
+
+Every organization runs on databases. Sometimes those databases are
+disguised as spreadsheets, but with enough time and growth those
+spreadsheets will start to buckle under the size of the data or the
+need to connect data together, or the need to report on the data.
+
+Every tech worker will bump up against those databases to varying
+degrees. Database administrators and developers, obviously.  Developers
+need to connect their applications to databases.  Network engineers
+need to protect access to database systems.
+
+Relational databases and SQL are technologies that have been around
+for decades and will be around for decades.
+
+If a disaster destroys your servers, you can rebuild.  If a disaster
+destroys your data, you're sunk.
+
+## Problem Decomposition
+
+Designing a database schema is a little like working on a word problem
+in math class: some terms are more important than others, and it takes
+some practice to figure out which things matter.  For our first pass
+through the overview, let's pull out a list of the things that we
+need to track:
+
+- There is an **office**.
+- There are several **doctors**
+  - Doctors have specialties
+- The practice has **patients**
+  - Patients can see one or many doctors
+- Patients have **accounts**
+- Patients make **payments** on their accounts
+- Patients can have any number of **ailments**
+- Patient **visits** are tracked
+- Patient **medication** is tracked
+
+It's also worth noting that sometimes information in a customer
+specification doesn't matter.  In this case, we see that it's a
+doctor's office "in the heart of downtown."  Does the office's
+downtownness impact our database design?  No: it would be the same
+even if it was a rural clinic.
+
+Before we dig further into the requirements, let's put together
+a very simple diagram to show our types, and their connections
+to one another.  This is a first pass, and we'll get more specific
+in the next pass.
+
+TKTK: diagram from notebook
