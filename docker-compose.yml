@@ -2,10 +2,13 @@ version: '3'
 
 services:
   postgres:
-    image: postgres
+    image: docker.io/postgres
     environment:
-      POSTGRES_DB: cmsdb
-      POSTGRES_PASSWORD: weakpassword
-      POSTGRES_USER: cmsuser
+      POSTGRES_DB: "${POSTGRES_DB:-db}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-password}"
+      POSTGRES_USER: "${POSTGRES_USER:-dbuser}"
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - "./bin:/usr/local/lab/bin"
+      - "./migrations:/usr/local/lab/migrations"
