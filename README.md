@@ -72,7 +72,7 @@ need to track:
   - Patients can see one or many doctors
 - Patients have **accounts**
 - Patients make **payments** on their accounts
-- Patients can have any number of **ailments**
+- Patients can be **diagnosed** with any number of **ailments**
 - Patient **visits** are tracked
 - Patient **medication** is tracked
 
@@ -88,3 +88,43 @@ to one another.  This is a first pass, and we'll get more specific
 in the next pass.
 
 TKTK: diagram from notebook
+
+## Entities / Tables
+
+Each kind of thing we want to track in our system is represented
+by an entity, also known as a table, in our database.  So there will be a
+Patient table, and each patient will be represented as a row
+in that table.
+
+Each entity has attributes, and those attributes are columns on the
+tables.  This is why spreadsheets often fill in for real databases
+in many small organizations: there's a lot of similar concepts.
+Databases take things to a level that spreadsheets cannot, though.
+In a spreadsheet you can put whatever data you want in to each column.
+In a database, we define types and constraints on attributes.
+
+Let's read through the scenario and requirements again, and let's
+capture the attributes required for each entity:
+
+### Doctor
+- Name
+- Gender
+- Salary
+- Speciality
+
+### Patient
+- Name
+- Gender
+- Date of Birth
+- Balance
+
+### Payment
+- Amount
+- Form
+
+### Ailment
+- Name
+
+### Diagnosis
+- Diagnosis date
+- Notes
