@@ -1,0 +1,179 @@
+
+doctor {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  gender: varchar(32)
+  salary: numeric(6,2)
+  speciality: varchar(128)
+}
+
+patient {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  account_id: int references account(id) {constraint: foreign_key}
+  gender: varchar(32)
+  birth_date: date
+  account_balance: numeric(8,2)
+}
+
+doctor_patient_relationship {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  start_date: date default now()
+  end_date: date
+  doctor_id: int references doctor(id) {constraint: foreign_key}
+  patient_id: int references patient(id) {constraint: foreign_key}
+}
+
+doctor.id <-> doctor_patient_relationship.doctor_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+patient.id <-> doctor_patient_relationship.patient_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+invoice_state{
+  shape: sql_table
+  invoice_state: char(1) {constraint: primary_key}
+  description: varchar(24)
+}
+
+invoice {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  create_date: date default now()
+  patient_id: int references patient(id) {constraint: foreign_key}
+  invoice_state: char(1) default 'N'
+  amount_total: numeric(8,2)
+  amount_due: numeric(8,2)
+}
+
+invoice.invoice_state <-> invoice_state.invoice_state: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+patient.id <-> invoice.patient_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+invoice_line_item {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  invoice_id: int references invoice(id) {constraint: foreign_key}
+  description: varchar(255) not null
+  quantity: int not null
+  amount: numeric(6,2)
+}
+
+invoice.id <-> invoice_line_item.invoice_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+payment_type{
+  shape: sql_table
+  payment_type: varchar(4) {constraint: primary_key}
+  description: varchar(24)
+}
+
+payment {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  patient_id: int references patient(id) {constraint: foreign_key}
+  amount: numeric(6,2)
+  payment_type: varchar(4) not null references payment_type(payment_type) {constraint: foreign_key}
+  payment_date: date not null default now()
+}
+
+patient.id <-> payment.patient_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+payment.payment_type <-> payment_type.payment_type: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+visit {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  doctor_id: int references doctor(id) {constraint: foreign_key}
+  patient_id: int references patient(id) {constraint: foreign_key}
+  start_time: timestamp not null
+  end_time: timestamp not null
+}
+
+doctor.id <-> visit.doctor_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+patient.id <-> visit.patient_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+diagnosis {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  doctor_id: int references doctor(id) {constraint: foreign_key}
+  patient_id: int references patient(id) {constraint: foreign_key}
+  diagnosis_name: varchar(255) not null
+  notes: text
+}
+
+doctor.id <-> diagnosis.doctor_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many-required
+}
+
+patient.id <-> diagnosis.patient_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many-required
+}
+
+diagnosis_progress {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  diagnosis_id: int references diagnosis(id) {constraint: foreign_key}
+  doctor_id: int references doctor(id) {constraint: foreign_key}
+  notes: text
+}
+
+diagnosis.id <-> diagnosis_progress.diagnosis_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
+}
+
+doctor.id <-> diagnosis_progress.doctor_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
+}
+
+medication {
+  shape: sql_table
+  id: serial {constraint: primary_key}
+  doctor_id: int references doctor(id) {constraint: foreign_key}
+  patient_id: int references patient(id) {constraint: foreign_key}
+  medication_name: varchar(255) not null
+  prescribed_amount: varchar(255)
+  prescribed_at: date not null
+  halted_at: date
+  notes: text
+}
+
+doctor.id <-> medication.doctor_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
+
+patient.id <-> medication.patient_id: {
+  source-arrowhead.shape: cf-one
+  target-arrowhead.shape: cf-many
+}
