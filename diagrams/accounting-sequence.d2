@@ -1,0 +1,21 @@
+Apply Payment: {
+    shape: sequence_diagram
+    user: User
+    frontend: Front End
+    backend: Back End
+    database: Database
+
+    user -> frontend: Enter payment details
+    frontend -> frontend: Basic validation
+    frontend -> backend: Submit payment via JSON API
+    backend -> backend: Full vaildation
+
+    begin transaction: {
+        backend -> database: Insert record into payment
+        database -> database: Trigger fires to update \ninvoice.amount_due + \npatient.account_balance 
+
+    }
+
+    backend -> frontend: Respond with success message
+    frontend -> user: Display success message
+}
