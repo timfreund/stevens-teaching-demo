@@ -25,14 +25,14 @@ doctor_patient_relationship {
   patient_id: int references patient(id) {constraint: foreign_key}
 }
 
-doctor.id <-> doctor_patient_relationship.doctor_id: {
-  source-arrowhead.shape: cf-one
-  target-arrowhead.shape: cf-many
+doctor <-> doctor_patient_relationship.doctor_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
 }
 
-patient.id <-> doctor_patient_relationship.patient_id: {
-  source-arrowhead.shape: cf-one
-  target-arrowhead.shape: cf-many
+patient <-> doctor_patient_relationship.patient_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
 }
 
 invoice_state{
@@ -46,18 +46,18 @@ invoice {
   id: serial {constraint: primary_key}
   create_date: date default now()
   patient_id: int references patient(id) {constraint: foreign_key}
-  invoice_state: char(1) default 'N'
+  invoice_state: char(1) not null default 'N'  {constraint: foreign_key}
   amount_total: numeric(8,2)
   amount_due: numeric(8,2)
 }
 
 invoice.invoice_state <-> invoice_state.invoice_state: {
-  source-arrowhead.shape: cf-one
-  target-arrowhead.shape: cf-many
+  source-arrowhead.shape: cf-many
+  target-arrowhead.shape: cf-one-required
 }
 
-patient.id <-> invoice.patient_id: {
-  source-arrowhead.shape: cf-one
+patient <-> invoice.patient_id: {
+  source-arrowhead.shape: cf-one-required
   target-arrowhead.shape: cf-many
 }
 
@@ -70,8 +70,8 @@ invoice_line_item {
   amount: numeric(6,2)
 }
 
-invoice.id <-> invoice_line_item.invoice_id: {
-  source-arrowhead.shape: cf-one
+invoice <-> invoice_line_item.invoice_id: {
+  source-arrowhead.shape: cf-one-required
   target-arrowhead.shape: cf-many
 }
 
@@ -90,14 +90,14 @@ payment {
   payment_date: date not null default now()
 }
 
-patient.id <-> payment.patient_id: {
-  source-arrowhead.shape: cf-one
+patient <-> payment.patient_id: {
+  source-arrowhead.shape: cf-one-required
   target-arrowhead.shape: cf-many
 }
 
 payment.payment_type <-> payment_type.payment_type: {
-  source-arrowhead.shape: cf-one
-  target-arrowhead.shape: cf-many
+  source-arrowhead.shape: cf-many
+  target-arrowhead.shape: cf-one-required
 }
 
 visit {
@@ -109,14 +109,14 @@ visit {
   end_time: timestamp not null
 }
 
-doctor.id <-> visit.doctor_id: {
-  source-arrowhead.shape: cf-one
-  target-arrowhead.shape: cf-many
+doctor <-> visit.doctor_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
 }
 
-patient.id <-> visit.patient_id: {
-  source-arrowhead.shape: cf-one
-  target-arrowhead.shape: cf-many
+patient <-> visit.patient_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
 }
 
 diagnosis {
@@ -128,13 +128,13 @@ diagnosis {
   notes: text
 }
 
-doctor.id <-> diagnosis.doctor_id: {
-  source-arrowhead.shape: cf-one
+doctor <-> diagnosis.doctor_id: {
+  source-arrowhead.shape: cf-one-required
   target-arrowhead.shape: cf-many-required
 }
 
-patient.id <-> diagnosis.patient_id: {
-  source-arrowhead.shape: cf-one
+patient <-> diagnosis.patient_id: {
+  source-arrowhead.shape: cf-one-required
   target-arrowhead.shape: cf-many-required
 }
 
@@ -146,12 +146,12 @@ diagnosis_progress {
   notes: text
 }
 
-diagnosis.id <-> diagnosis_progress.diagnosis_id: {
+diagnosis <-> diagnosis_progress.diagnosis_id: {
   source-arrowhead.shape: cf-one-required
   target-arrowhead.shape: cf-many-required
 }
 
-doctor.id <-> diagnosis_progress.doctor_id: {
+doctor <-> diagnosis_progress.doctor_id: {
   source-arrowhead.shape: cf-one-required
   target-arrowhead.shape: cf-many-required
 }
@@ -159,8 +159,8 @@ doctor.id <-> diagnosis_progress.doctor_id: {
 medication {
   shape: sql_table
   id: serial {constraint: primary_key}
-  doctor_id: int references doctor(id) {constraint: foreign_key}
-  patient_id: int references patient(id) {constraint: foreign_key}
+  doctor_id: int not null references doctor(id) {constraint: foreign_key}
+  patient_id: int not null references patient(id) {constraint: foreign_key}
   medication_name: varchar(255) not null
   prescribed_amount: varchar(255)
   prescribed_at: date not null
@@ -168,12 +168,12 @@ medication {
   notes: text
 }
 
-doctor.id <-> medication.doctor_id: {
-  source-arrowhead.shape: cf-one
-  target-arrowhead.shape: cf-many
+doctor <-> medication.doctor_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
 }
 
-patient.id <-> medication.patient_id: {
-  source-arrowhead.shape: cf-one
-  target-arrowhead.shape: cf-many
+patient <-> medication.patient_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
 }
