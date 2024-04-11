@@ -9,7 +9,8 @@ services:
       - "./diagrams:/usr/src/app/input"
       - "./output:/usr/src/app/output"
   postgres:
-    image: docker.io/postgres
+    build:
+      context: ./docker/postgres
     environment:
       POSTGRES_DB: "${POSTGRES_DB:-db}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-password}"
