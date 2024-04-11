@@ -135,7 +135,67 @@ capture the attributes required for each entity:
 - Diagnosis date
 - Notes
 
+## Data Model Next Steps
 
+Every data model is subject to change until the data model is
+retired all together.
+
+The database migrations directory is plural because there is
+an expectation that additional schema changes will be required
+over time.  Likewise the `./bin/run-migrations.sh` script will
+run all scripts in numeric order.
+
+If we're planning on change, what changes are likely for this model?
+
+### Accounting Data
+
+The accounting portion of the data model is weak.  Two likely
+options exist and would depend on the needs of the business:
+
+1. Build a double entry accounting data model with a chart
+   of accounts, a ledger system, financial transactions,
+   batch processing, and reconciliation processes.
+2. Integrate with an off the shelf accounting system and
+   remove as much financial data from the clinical data
+   model as possible.
+
+### Reference Data Sources
+
+Medications are highly regulated and third party services
+like Surescripts and intermediaries like DrFirst provide
+vetted databases of medication and enable practices to
+do full e-prescribing including prescription of controlled
+substances.  A more complete data model in our system would
+likely include a copy of the drug reference database and our
+medication table would reference entries in that database.
+
+Likewise, diagnosis codes are standardized in the United States for
+the sake of insurance billing purposes.  Our database should grow to
+include appropriate diagnosis code fields, and our
+`diagnosis_progress` table would likely include fields or other
+validation that SOAP (Subjective, Objective, Assessment, Plan) note
+details are being captured.
+
+### Additional Locations
+
+Right now the there is only one office.  When a merger or sufficient
+internal growth occur, we'll need to add structure to the database to
+support multiple locations.
+
+## Lab Infrastructure Next Steps
+
+### Migration System
+
+The migration system currently runs all available scripts.  A true
+migration system keeps track of migrations that have been run and
+only runs new migrations.
+
+### GUI instructions
+
+[PGAdmin](https://www.pgadmin.org/) exists and many students would
+probably appreciate using it to navigate the database and view
+the auto-generated ERD diagrams.  Include instructions on installation
+and configuration.
 
 ## Background on Approach and Tooling
 
