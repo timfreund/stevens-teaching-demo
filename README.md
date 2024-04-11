@@ -27,11 +27,67 @@ Requirements:
 Using a software of your choice create a UML and an Entity-Relationship Diagram of the above
 scenario explaining the decision of how you arrive at your final answer.
 
+## Navigating this Project
 
+- ./README.md: this file. Includes
+  - The prompt
+  - Concepts to cover while teaching
+  - Process of problem decomposition
+  - Philosophy on teaching and tooling choices
+- ./bin: scripts for use within the PostgreSQL database container
+- ./diagrams: d2 source files for ERD and UML diagrams
+- ./docker-compose.yml: defines a postgresql and d2 container
+- ./docker: contains subdirectories for customizing the containers
+   used in the docker-compose.yml file
+   for exploring the problem and creating diagrams.
+- ./.env: environment variables used to configure the database
+- ./migrations: SQL files for database configuration
+- ./output: Diagrams generated from the d2 source files
 
+Install [Docker](https://www.docker.com/) or [Podman](https://podman.io/)
+to make use of the provided container definitions.  Most documentation
+on the internet refers to Docker.  Podman is an open source alternative
+and is mostly compatible.
 
+### With Docker
 
+Start the database and the d2 diagram generator
 
+``` shell
+docker compose up
+```
+
+Access the database and load the migration SQL files in another terminal
+
+``` shell
+docker compose exec potgres /bin/bash
+./bin/reset-db.sh
+./bin/run-migrations.sh
+```
+
+### With Podman
+
+The process is the same but we replace "docker compose" with "podman-compose"
+
+``` shell
+docker compose up
+```
+
+Access the database and load the migration SQL files in another terminal
+
+``` shell
+docker compose exec potgres /bin/bash
+./bin/reset-db.sh
+./bin/run-migrations.sh
+```
+
+### Editing Diagrams
+
+With the docker containers running, any changes made to the diagrams
+in the `./diagrams` directory will be automatically transformed into
+a SVG file by d2.  If you'd like to edit the files and get instant
+feedback, install [d2](https://d2lang.com/) somewhere on your PATH and
+install the [VSCode extension](https://d2lang.com/tour/vscode/).
 
 ## Concepts to cover
 
