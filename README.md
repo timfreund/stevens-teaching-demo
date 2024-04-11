@@ -15,14 +15,13 @@ record is kept of each patient’s visit as well as his or her date of birth for
 to be prescribed.
 
 Requirements:
-(a) The physician attributes include name, gender, salary, specialty, etc.;
-(b) The patient’s attributes include name, date of birth, account balance and gender;
-(c) A patient can see one or more doctors;
-(d) Payment can be made in several ways including visa (other forms), check or cash;
-(e) A patient can be diagnosed with one or more ailments;
-(f) For each patient visit, the patient’s balance amount is updated;
-(g) Display a patient’s visit and his/her diagnosis(es);
-(h) Display summary of visits by diagnosis;
+1. The physician attributes include name, gender, salary, specialty, etc.;2. The patient’s attributes include name, date of birth, account balance and gender;
+3. A patient can see one or more doctors;
+4. Payment can be made in several ways including visa (other forms), check or cash;
+5. A patient can be diagnosed with one or more ailments;
+6. For each patient visit, the patient’s balance amount is updated;
+7. Display a patient’s visit and his/her diagnosis(es);
+8. Display summary of visits by diagnosis;
 
 Using a software of your choice create a UML and an Entity-Relationship Diagram of the above
 scenario explaining the decision of how you arrive at your final answer.
