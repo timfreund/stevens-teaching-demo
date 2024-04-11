@@ -27,6 +27,12 @@ Requirements:
 Using a software of your choice create a UML and an Entity-Relationship Diagram of the above
 scenario explaining the decision of how you arrive at your final answer.
 
+
+
+
+
+
+
 ## Concepts to cover
 
 - Why learn relational databases?
@@ -128,3 +134,56 @@ capture the attributes required for each entity:
 ### Diagnosis
 - Diagnosis date
 - Notes
+
+
+
+## Background on Approach and Tooling
+
+### Version Control
+
+This project is managed with [Git](https://git-scm.com/) and
+a private [GitLab](https://about.gitlab.com/) instance with
+a public mirror on [GitHub](https://github.com/timfreund/stevens-teaching-demo).
+
+Version control systems are free and ubiquitous, and they run locally
+with or without a server. Version control was previously used
+primarily by software engineering teams in the past, but now all
+technical teams can reap the benefits of detailed change history.
+The most effective SRE team I worked on defined all infrastructure
+as code and they managed changes to that code in Gitlab.
+
+On a practical level for our students, encouraging the use of version
+control early and often will help them build a habit that will
+pay dividends throughout their career regardless of the specific
+technologies they are using.
+
+### PostgreSQL
+
+I've used many relational databases including Oracle, MSSQL, MySQL,
+and Sqlite.  I choose [PostgreSQL](https://www.postgresql.org/) in
+cases where there are no constraints that would steer me toward
+another solution.  It has a long history of favoring correctness over
+performance, and they've made tremendous progress on the performance
+front in the past decade.  It is open source so it can be deployed as
+often as necessary without legal or licensing concerns.  Many
+organizations are rethinking their database vendor choices as
+proprietary and open source systems reach relative feature parity
+while the proprietary system license fees continue to grow.  My last
+two employers were actively considering moves from MSSQL to
+PostgreSQL, and my last employer had guidance in place to not pursue
+acquisitions if the target company relied on MSSQL.
+
+### Docker Compose
+
+In other areas of the CNSA program students will presumably
+build systems from scratch including database servers.  Since
+this teaching sample is covering database design, I wanted
+a lab environment that was easy and consistent to provision,
+and just as easy to destroy and recreate.
+
+### D2 for Diagrams
+
+[D2](https://d2lang.com/) is an open source tool that transforms plain
+text into diagrams.  This lets us generate diagrams automatically in
+continuous integration pipelines and helps alleviate the biggest
+problem with documentation in industry: drift from reality.
