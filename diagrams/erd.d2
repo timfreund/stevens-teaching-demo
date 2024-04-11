@@ -10,7 +10,6 @@ doctor {
 patient {
   shape: sql_table
   id: serial {constraint: primary_key}
-  account_id: int references account(id) {constraint: foreign_key}
   gender: varchar(32)
   birth_date: date
   account_balance: numeric(8,2)
@@ -19,10 +18,10 @@ patient {
 doctor_patient_relationship {
   shape: sql_table
   id: serial {constraint: primary_key}
-  start_date: date default now()
-  end_date: date
   doctor_id: int references doctor(id) {constraint: foreign_key}
   patient_id: int references patient(id) {constraint: foreign_key}
+  start_date: date not null default now()
+  end_date: date
 }
 
 doctor <-> doctor_patient_relationship.doctor_id: {
@@ -44,9 +43,9 @@ invoice_state{
 invoice {
   shape: sql_table
   id: serial {constraint: primary_key}
-  create_date: date default now()
   patient_id: int references patient(id) {constraint: foreign_key}
   invoice_state: char(1) not null default 'N'  {constraint: foreign_key}
+  create_date: date default now()
   amount_total: numeric(8,2)
   amount_due: numeric(8,2)
 }
@@ -85,8 +84,8 @@ payment {
   shape: sql_table
   id: serial {constraint: primary_key}
   patient_id: int references patient(id) {constraint: foreign_key}
-  amount: numeric(6,2)
   payment_type: varchar(4) not null references payment_type(payment_type) {constraint: foreign_key}
+  amount: numeric(6,2)
   payment_date: date not null default now()
 }
 
@@ -107,6 +106,7 @@ visit {
   patient_id: int references patient(id) {constraint: foreign_key}
   start_time: timestamp not null
   end_time: timestamp not null
+  visit: text
 }
 
 doctor <-> visit.doctor_id: {
