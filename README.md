@@ -148,9 +148,7 @@ a very simple diagram to show our types, and their connections
 to one another.  This is a first pass, and we'll get more specific
 in the next pass.
 
-TKTK: diagram from notebook
-
-## Entities / Tables
+## Entities / Tables, Relationships, and Cardinality
 
 Each kind of thing we want to track in our system is represented
 by an entity, also known as a table, in our database.  So there will be a
@@ -165,30 +163,32 @@ In a spreadsheet you can put whatever data you want in to each column.
 In a database, we define types and constraints on attributes.
 
 Let's read through the scenario and requirements again, and let's
-capture the attributes required for each entity:
+capture the attributes required for each entity.  Things to note
+as we walk through the ERD:
 
-### Doctor
-- Name
-- Gender
-- Salary
-- Speciality
+- Some attributes hold data specific to that entity.
+- Some attributes are references to other entities
+- Some entities primarily exist to tie other entities
+  together in a many to many relationship.
 
-### Patient
-- Name
-- Gender
-- Date of Birth
-- Balance
+When discussing relationships between entities we can determine
+cardinality and define the entities and attributes in a way to
+enforce that cardinality:
 
-### Payment
-- Amount
-- Form
+- One to One (Optional)
+- One to One (Required)
+- One to Many
 
-### Ailment
-- Name
+### Key Choices
 
-### Diagnosis
-- Diagnosis date
-- Notes
+All of the entities in our example use auto-incrementing integer
+primary keys. The database we're using gives that a special data type
+name of `serial`.  These keys are "artificial", and we could make
+natural primary keys out of one or more attributes of the entity
+instead.  We choose not to do this largely for two reasons:
+
+- RDBMS software is *really, really* good at selecting and joining on integer or bigint keys.
+- The things we think are unchangeable or unique often turn out to be not so
 
 ## Data Model Next Steps
 
