@@ -124,6 +124,7 @@ diagnosis {
   id: serial {constraint: primary_key}
   doctor_id: int references doctor(id) {constraint: foreign_key}
   patient_id: int references patient(id) {constraint: foreign_key}
+  visit_id: int references visit(id) {constraint: foreign_key}
   diagnosis_name: varchar(255) not null
   notes: text
 }
@@ -138,11 +139,17 @@ patient <-> diagnosis.patient_id: {
   target-arrowhead.shape: cf-many-required
 }
 
+visit <-> diagnosis.patient_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
+}
+
 diagnosis_progress {
   shape: sql_table
   id: serial {constraint: primary_key}
   diagnosis_id: int references diagnosis(id) {constraint: foreign_key}
   doctor_id: int references doctor(id) {constraint: foreign_key}
+  visit_id: int references visit(id) {constraint: foreign_key}
   notes: text
 }
 
@@ -152,6 +159,11 @@ diagnosis <-> diagnosis_progress.diagnosis_id: {
 }
 
 doctor <-> diagnosis_progress.doctor_id: {
+  source-arrowhead.shape: cf-one-required
+  target-arrowhead.shape: cf-many-required
+}
+
+visit <-> diagnosis_progress.patient_id: {
   source-arrowhead.shape: cf-one-required
   target-arrowhead.shape: cf-many-required
 }

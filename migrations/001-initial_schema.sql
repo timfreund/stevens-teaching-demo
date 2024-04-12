@@ -77,6 +77,7 @@ create table diagnosis (
   doctor_id int references doctor(id),
   patient_id int references patient(id),
   diagnosis_name varchar(255) not null,
+  visit_id int references visit(id),
   notes text
 );
 
@@ -85,6 +86,7 @@ create table diagnosis_progress (
   diagnosis_id int references diagnosis(id),
   doctor_id int references doctor(id),
   patient_id int references patient(id),
+  visit_id int references visit(id),
   notes text
 );
 
