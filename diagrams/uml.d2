@@ -182,12 +182,15 @@ Diagnosis {
   id: int
   doctor_id: int
   patient_id: int
+  visit_id: int
   diagnosis_name: String
   notes: String
   getDoctor(): Doctor
   setDoctor(d Doctor)
   getPatient(): Patient
   setPatient(d Patient)
+  getVisit(): Visit
+  setVisit(v Visit)
 }
 
 Patient --> Diagnosis: {
@@ -202,9 +205,12 @@ DiagnosisProgress {
   id: int
   diagnosis_id: int
   doctor_id: int
+  visit_id: int
   notes: String
   getDoctor(): Doctor
   setDoctor(d Doctor)
+  getVisit(): Visit
+  setVisit(v Visit)
 }
 
 Diagnosis --> DiagnosisProgress: {
@@ -212,6 +218,20 @@ Diagnosis --> DiagnosisProgress: {
   target-arrowhead.shape: diamond
 }
 
+Diagnosis --> Visit: {
+    source-arrowhead.label: *
+    target-arrowhead.label: 1  
+    target-arrowhead.style.filled: false
+    target-arrowhead.shape: diamond
+}
+
+DiagnosisProgress --> Visit: {
+    source-arrowhead.label: *
+    target-arrowhead.label: 1  
+    target-arrowhead.style.filled: false
+    target-arrowhead.shape: diamond
+}
+  
 Medication {
   shape: class
   -id: int
@@ -237,7 +257,8 @@ Patient --> Medication: {
 
 Scheduler {
   shape: class
-  getAppointmentsByDiagnosis(diagnosisName String)
+  getAppointments(d Doctor, p Patient): Visit\[\]
+  getAppointmentsByDiagnosis(diagnosisName String): Visit\[\]
   scheduleAppointment(d Doctor, p Patient, start Datetime, end DateTime)
 }
 
