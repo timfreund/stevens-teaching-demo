@@ -1,0 +1,249 @@
+
+Doctor {
+  shape: class
+  -id: int
+  -gender: String
+  -salary: double
+  -speciality: String
+  +getAllPatients()
+  +getPatients(active bool)
+}
+
+Patient {
+  shape: class
+  -id: int
+  -gender: String
+  -birth_date: Date
+  -account_balance: double
+  getGender(): String
+  setGender(g String)
+  getBirthDate(): Date
+  setBirthDate(d Date)
+  getAccountBalance(): double
+  setAccountBalance(b double)
+  createDiagnosis(d Diagnosis)
+  createInvoice(i Invoice)
+  createMedication(m Medication)
+  createPayment(p Payment)
+  getDiagnoses(): Diagnosis\[\]
+  getInvoices(): Invoice\[\]
+  getMedications(): Medication\[\]
+  getPayments(): Payment\[\]
+}
+
+Doctor --> Patient: {
+  target-arrowhead.style.filled: false
+  target-arrowhead.shape: diamond
+
+}
+
+DoctorPatientRelationship {
+  shape: class
+  -id: int
+  -doctor_id: int
+  -patient_id: int
+  -start_date: Date
+  -end_date: Date
+  getDoctor(): Doctor
+  getPatient(): Patient
+  getStartDate(): Date
+  setStartDate(d Date)
+  getEndDate():Date
+  setEndDate(d Date)
+  
+}
+
+DoctorPatientRelationship --> Doctor: { 
+  source-arrowhead.label: 1
+  target-arrowhead.label: 1
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+DoctorPatientRelationship --> Patient: { 
+  source-arrowhead.label: 1
+  target-arrowhead.label: 1
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+InvoiceStateEnum{
+  shape: class
+  NEW
+  SENT
+  PAID
+  WRITEOFF
+}
+
+Invoice {
+  shape: class
+  -id: int
+  -patient_id: int
+  -invoice_state: String
+  -create_date: Date
+  -amount_total: double
+  -amount_due: double  
+  getAmountDue(): double
+  setAmountDue(d Double)
+  getAmountTotal(): double
+  setAmountTotal(d Double)
+  getCreateDate(): Date
+  setCreateDate(d Date)
+  getInvoiceState(): InvoiceStateEnum
+  setInvoiceState(ise InvoiceStateEnum)
+  getPatient(): Patient
+  setPatient(d Patient)
+  createLineItem(description String, quantity int, amount double)
+  getLineItems(): InvoiceLineItem\[\]
+}
+
+InvoiceLineItem {
+  shape: class
+  -id: int
+  -invoice_id: int
+  -description: String
+  -quantity: int
+  -amount: double
+  getAmount(): double
+  setAmount(d double)
+  getDescription(): String
+  setDescription(d String)
+  getQuantity(): int
+  setQuantity(q int)  
+}
+
+Invoice --> InvoiceLineItem: {
+  source-arrowhead.label: 1
+  target-arrowhead.label: *
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+PaymentTypeEnum {
+  shape: class
+  ACH
+  CASH
+  CC
+}
+
+Payment {
+  shape: class
+  -id: int
+  -patient_id: int
+  -payment_type: String
+  -amount: double
+  -payment_date: Date
+}
+
+Patient --> Invoice: { 
+  source-arrowhead.label: 1
+  target-arrowhead.label: *
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+Patient --> Payment: { 
+  source-arrowhead.label: 1
+  target-arrowhead.label: *
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+Visit {
+  shape: class
+  id: int
+  doctor_id: int
+  patient_id: int
+  start_time: DateTime
+  end_time: DateTime
+  visit: String
+  getDoctor(): Doctor
+  setDoctor(d Doctor)
+  getPatient(): Patient
+  setPatient(d Patient)
+}
+
+Patient --> Visit: { 
+  source-arrowhead.label: 1
+  target-arrowhead.label: *
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+Doctor --> Visit: { 
+  source-arrowhead.label: 1
+  target-arrowhead.label: *
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+Diagnosis {
+  shape: class
+  id: int
+  doctor_id: int
+  patient_id: int
+  diagnosis_name: String
+  notes: String
+  getDoctor(): Doctor
+  setDoctor(d Doctor)
+  getPatient(): Patient
+  setPatient(d Patient)
+}
+
+Patient --> Diagnosis: {
+  source-arrowhead.label: 1
+  target-arrowhead.label: *
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+DiagnosisProgress {
+  shape: class
+  id: int
+  diagnosis_id: int
+  doctor_id: int
+  notes: String
+  getDoctor(): Doctor
+  setDoctor(d Doctor)
+}
+
+Diagnosis --> DiagnosisProgress: {
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+Medication {
+  shape: class
+  -id: int
+  -doctor_id: int
+  -patient_id: int
+  -medication_name: String
+  -prescribed_amount: String
+  -prescribed_at: Date
+  -halted_at: Date
+  -notes: String
+  getDoctor(): Doctor
+  setDoctor(d Doctor)
+  getPatient(): Patient
+  setPatient(d Patient)
+}
+
+Patient --> Medication: {
+  source-arrowhead.label: 1
+  target-arrowhead.label: *
+  target-arrowhead.style.filled: true
+  target-arrowhead.shape: diamond
+}
+
+Scheduler {
+  shape: class
+  getAppointmentsByDiagnosis(diagnosisName String)
+  scheduleAppointment(d Doctor, p Patient, start Datetime, end DateTime)
+}
+
+ScriptManager {
+  shape: class
+  getPrescriptionsByDoctor(d Doctor)
+  getPrescriptionsByMedication(medicationName String)
+  writePrescription(d Doctor, p Patient, m Medication)
+}
